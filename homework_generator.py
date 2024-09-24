@@ -102,7 +102,7 @@ def __(mo):
 
 
 @app.cell
-def __(mo, math_problems, word_problem, word_puzzle, unscramble, math_answers, word_problem_answer, word_puzzle_answer, unscramble_answer):
+def __(mo, check_button, math_problems, word_problem, word_puzzle, unscramble, math_answers, word_problem_answer, word_puzzle_answer, unscramble_answer):
     # Check answers function
     def check_answers():
         results = []
