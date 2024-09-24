@@ -1,4 +1,5 @@
 import marimo
+import marimo as mo
 
 __generated_with = "0.1.0"
 app = marimo.App()
