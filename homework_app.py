@@ -48,6 +48,7 @@ if st.button("Submit"):
 
     # Check math problems
     for i, (problem, correct) in enumerate(math_problems, 1):
+        print(problem[1])
         if problem[1].isdigit() and int(problem[1]) == correct:
             results.append(f"Math Problem {i}: Correct!")
         else:
