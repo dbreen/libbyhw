@@ -27,7 +27,7 @@ unscramble = st.session_state.unscramble
 st.header("Math Problems")
 for i, (problem, _) in enumerate(math_problems, 1):
     st.write(f"{i}. {problem}")
-    math_problems[i-1] = (problem, st.number_input(f"Answer {i}", min_value=0, max_value=100, step=1))
+    math_problems[i-1] = (problem, int(st.number_input(f"Answer {i}", min_value=0, max_value=100, step=1)))
 
 st.header("Word Problem")
 st.write(word_problem[0])
@@ -47,7 +47,7 @@ if st.button("Submit"):
 
     # Check math problems
     for i, (problem, correct) in enumerate(math_problems, 1):
-        if problem[1] == correct:
+        if int(problem[1]) == correct:
             results.append(f"Math Problem {i}: Correct!")
         else:
             results.append(f"Math Problem {i}: Incorrect. The correct answer is {correct}.")
