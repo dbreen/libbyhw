@@ -4,15 +4,24 @@ from homework_generator import generate_math_problem, generate_word_problem, gen
 # Title of the app
 st.title("1st Grader's Homework App")
 
-# Generate homework
-math_problems = [
-    generate_math_problem('add'),
-    generate_math_problem('subtract'),
-    generate_math_problem('multiply')
-]
-word_problem = generate_word_problem()
-word_puzzle = generate_word_puzzle()
-unscramble = generate_unscramble()
+# Initialize session state if not already done
+if 'math_problems' not in st.session_state:
+    st.session_state.math_problems = [
+        generate_math_problem('add'),
+        generate_math_problem('subtract'),
+        generate_math_problem('multiply')
+    ]
+if 'word_problem' not in st.session_state:
+    st.session_state.word_problem = generate_word_problem()
+if 'word_puzzle' not in st.session_state:
+    st.session_state.word_puzzle = generate_word_puzzle()
+if 'unscramble' not in st.session_state:
+    st.session_state.unscramble = generate_unscramble()
+
+math_problems = st.session_state.math_problems
+word_problem = st.session_state.word_problem
+word_puzzle = st.session_state.word_puzzle
+unscramble = st.session_state.unscramble
 
 # Display homework
 st.header("Math Problems")
