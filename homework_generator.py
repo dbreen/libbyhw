@@ -1,17 +1,18 @@
-import marimo as mo
+import marimo
 
 __generated_with = "0.8.18"
-app = mo.App()
+app = marimo.App()
 
 
-@mo.cell
+@app.cell
 def __():
     import random
     import string
-    return random, string
+    import marimo as mo
+    return mo, random, string
 
 
-@mo.cell
+@app.cell
 def __(random, string):
     def generate_math_problem(operation):
         if operation == 'add':
@@ -61,8 +62,8 @@ def __(random, string):
     return generate_math_problem, generate_word_problem, generate_word_puzzle, generate_unscramble
 
 
-@mo.cell
-def __(generate_math_problem, generate_word_problem, generate_word_puzzle, generate_unscramble):
+@app.cell
+def __(mo, generate_math_problem, generate_word_problem, generate_word_puzzle, generate_unscramble):
     # Generate homework
     math_problems = [
         generate_math_problem('add'),
@@ -79,25 +80,31 @@ def __(generate_math_problem, generate_word_problem, generate_word_puzzle, gener
     mo.md("## Math Problems")
     for i, (problem, answer) in enumerate(math_problems, 1):
         mo.md(f"{i}. {problem}")
-        mo.input(f"Answer {i}", type=str)
+        mo.ui.text(f"Answer {i}")
     
     mo.md("## Word Problem")
     mo.md(word_problem[0])
-    mo.input("Word Problem Answer", type=str)
+    mo.ui.text("Word Problem Answer")
     
     mo.md("## Word Puzzle")
     mo.md(word_puzzle[0])
-    mo.input("Missing Letter", type=str)
+    mo.ui.text("Missing Letter")
     
     mo.md("## Unscramble")
     mo.md(unscramble[0])
-    mo.input("Unscrambled Word", type=str)
+    mo.ui.text("Unscrambled Word")
     
     return math_problems, word_problem, word_puzzle, unscramble
 
 
-@mo.cell
-def __(math_problems, word_problem, word_puzzle, unscramble, math_answers, word_problem_answer, word_puzzle_answer, unscramble_answer):
+@app.cell
+def __(mo):
+    check_button = mo.ui.button("Check Answers")
+    return check_button
+
+
+@app.cell
+def __(mo, math_problems, word_problem, word_puzzle, unscramble, math_answers, word_problem_answer, word_puzzle_answer, unscramble_answer):
     # Check answers function
     def check_answers():
         results = []
@@ -128,9 +135,7 @@ def __(math_problems, word_problem, word_puzzle, unscramble, math_answers, word_
             results.append(f"Unscramble: Incorrect. The correct word is '{unscramble[1]}'.")
         
         return "\n".join(results)
-    
-    check_button = mo.ui.button("Check Answers")
-    
+        
     if check_button.value:
         mo.md(check_answers())
     return
