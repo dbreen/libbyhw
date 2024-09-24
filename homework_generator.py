@@ -12,54 +12,52 @@ def __():
     return mo, random, string
 
 
-@app.cell
-def __(random, string):
-    def generate_math_problem(operation):
-        if operation == 'add':
-            a, b = random.randint(1, 20), random.randint(1, 20)
-            return f"{a} + {b} = ?", a + b
-        elif operation == 'subtract':
-            a, b = random.randint(1, 20), random.randint(1, 10)
-            return f"{a} - {b} = ?", a - b
-        elif operation == 'multiply':
-            a, b = random.randint(1, 10), random.randint(1, 10)
-            return f"{a} × {b} = ?", a * b
+import random
+
+def generate_math_problem(operation):
+    if operation == 'add':
+        a, b = random.randint(1, 20), random.randint(1, 20)
+        return f"{a} + {b} = ?", a + b
+    elif operation == 'subtract':
+        a, b = random.randint(1, 20), random.randint(1, 10)
+        return f"{a} - {b} = ?", a - b
+    elif operation == 'multiply':
+        a, b = random.randint(1, 10), random.randint(1, 10)
+        return f"{a} × {b} = ?", a * b
+
+def generate_word_problem():
+    templates = [
+        "If {name} has {num1} apples and gives {num2} to a friend, how many apples does {name} have left?",
+        "{name} wants to buy a toy that costs ${num1}. If {name} has ${num2}, how much more money does {name} need?",
+        "There are {num1} students in a class. If {num2} more students join, how many students are there in total?"
+    ]
+    names = ["Emma", "Liam", "Olivia", "Noah", "Ava", "Ethan"]
+    template = random.choice(templates)
+    name = random.choice(names)
+    num1, num2 = random.randint(5, 20), random.randint(1, 10)
     
-    def generate_word_problem():
-        templates = [
-            "If {name} has {num1} apples and gives {num2} to a friend, how many apples does {name} have left?",
-            "{name} wants to buy a toy that costs ${num1}. If {name} has ${num2}, how much more money does {name} need?",
-            "There are {num1} students in a class. If {num2} more students join, how many students are there in total?"
-        ]
-        names = ["Emma", "Liam", "Olivia", "Noah", "Ava", "Ethan"]
-        template = random.choice(templates)
-        name = random.choice(names)
-        num1, num2 = random.randint(5, 20), random.randint(1, 10)
-        
-        problem = template.format(name=name, num1=num1, num2=num2)
-        if "left" in template:
-            answer = num1 - num2
-        elif "more money" in template:
-            answer = num1 - num2
-        else:
-            answer = num1 + num2
-        
-        return problem, answer
+    problem = template.format(name=name, num1=num1, num2=num2)
+    if "left" in template:
+        answer = num1 - num2
+    elif "more money" in template:
+        answer = num1 - num2
+    else:
+        answer = num1 + num2
     
-    def generate_word_puzzle():
-        words = ["cat", "dog", "sun", "moon", "tree", "book", "fish", "bird", "star", "house"]
-        word = random.choice(words)
-        missing_index = random.randint(0, len(word) - 1)
-        puzzle = word[:missing_index] + "_" + word[missing_index+1:]
-        return f"Fill in the missing letter: {puzzle}", word[missing_index]
-    
-    def generate_unscramble():
-        words = ["apple", "banana", "orange", "grape", "cherry", "lemon", "melon", "peach", "plum", "berry"]
-        word = random.choice(words)
-        scrambled = ''.join(random.sample(word, len(word)))
-        return f"Unscramble the word: {scrambled}", word
-    
-    return generate_math_problem, generate_word_problem, generate_word_puzzle, generate_unscramble
+    return problem, answer
+
+def generate_word_puzzle():
+    words = ["cat", "dog", "sun", "moon", "tree", "book", "fish", "bird", "star", "house"]
+    word = random.choice(words)
+    missing_index = random.randint(0, len(word) - 1)
+    puzzle = word[:missing_index] + "_" + word[missing_index+1:]
+    return f"Fill in the missing letter: {puzzle}", word[missing_index]
+
+def generate_unscramble():
+    words = ["apple", "banana", "orange", "grape", "cherry", "lemon", "melon", "peach", "plum", "berry"]
+    word = random.choice(words)
+    scrambled = ''.join(random.sample(word, len(word)))
+    return f"Unscramble the word: {scrambled}", word
 
 
 @app.cell
