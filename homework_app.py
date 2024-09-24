@@ -48,29 +48,28 @@ if st.button("Submit"):
 
     # Check math problems
     for i, (problem, correct) in enumerate(math_problems, 1):
-        print(problem[1])
         if problem[1].isdigit() and int(problem[1]) == correct:
-            results.append(f"Math Problem {i}: Correct!")
+            results.append((f"Math Problem {i}: Correct!", "✅"))
         else:
-            results.append(f"Math Problem {i}: Incorrect. The correct answer is {correct}.")
+            results.append((f"Math Problem {i}: Incorrect. The correct answer is {correct}.", "❌"))
 
     # Check word problem
     if word_problem_answer.strip() == str(word_problem[1]):
-        results.append("Word Problem: Correct!")
+        results.append(("Word Problem: Correct!", "✅"))
     else:
-        results.append(f"Word Problem: Incorrect. The correct answer is {word_problem[1]}.")
+        results.append((f"Word Problem: Incorrect. The correct answer is {word_problem[1]}.", "❌"))
 
     # Check word puzzle
     if word_puzzle_answer.strip().lower() == word_puzzle[1].lower():
-        results.append("Word Puzzle: Correct!")
+        results.append(("Word Puzzle: Correct!", "✅"))
     else:
-        results.append(f"Word Puzzle: Incorrect. The correct letter is '{word_puzzle[1]}'.")
+        results.append((f"Word Puzzle: Incorrect. The correct letter is '{word_puzzle[1]}'.", "❌"))
 
     # Check unscramble
     if unscramble_answer.strip().lower() == unscramble[1].lower():
-        results.append("Unscramble: Correct!")
+        results.append(("Unscramble: Correct!", "✅"))
     else:
-        results.append(f"Unscramble: Incorrect. The correct word is '{unscramble[1]}'.")
+        results.append((f"Unscramble: Incorrect. The correct word is '{unscramble[1]}'.", "❌"))
 
-    for result in results:
-        st.write(result)
+    for i, (result, icon) in enumerate(results):
+        st.markdown(f"{result} {icon}")
