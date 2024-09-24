@@ -1,18 +1,17 @@
-import marimo
 import marimo as mo
 
-__generated_with = "0.1.0"
-app = marimo.App()
+__generated_with = "0.8.18"
+app = mo.App()
 
 
-@app.cell
+@mo.cell
 def __():
     import random
     import string
     return random, string
 
 
-@app.cell
+@mo.cell
 def __(random, string):
     def generate_math_problem(operation):
         if operation == 'add':
@@ -62,7 +61,7 @@ def __(random, string):
     return generate_math_problem, generate_word_problem, generate_word_puzzle, generate_unscramble
 
 
-@app.cell
+@mo.cell
 def __(generate_math_problem, generate_word_problem, generate_word_puzzle, generate_unscramble):
     # Generate homework
     math_problems = [
@@ -97,37 +96,33 @@ def __(generate_math_problem, generate_word_problem, generate_word_puzzle, gener
     return math_problems, word_problem, word_puzzle, unscramble
 
 
-@app.cell
-def __(math_problems, word_problem, word_puzzle, unscramble):
+@mo.cell
+def __(math_problems, word_problem, word_puzzle, unscramble, math_answers, word_problem_answer, word_puzzle_answer, unscramble_answer):
     # Check answers function
     def check_answers():
         results = []
         
         # Check math problems
-        for i, (_, correct) in enumerate(math_problems, 1):
-            user_answer = mo.get(f"Answer {i}")
-            if user_answer.strip() == str(correct):
+        for i, ((_, correct), user_answer) in enumerate(zip(math_problems, math_answers), 1):
+            if user_answer.value.strip() == str(correct):
                 results.append(f"Math Problem {i}: Correct!")
             else:
                 results.append(f"Math Problem {i}: Incorrect. The correct answer is {correct}.")
         
         # Check word problem
-        word_problem_answer = mo.get("Word Problem Answer")
-        if word_problem_answer.strip() == str(word_problem[1]):
+        if word_problem_answer.value.strip() == str(word_problem[1]):
             results.append("Word Problem: Correct!")
         else:
             results.append(f"Word Problem: Incorrect. The correct answer is {word_problem[1]}.")
         
         # Check word puzzle
-        word_puzzle_answer = mo.get("Missing Letter")
-        if word_puzzle_answer.strip().lower() == word_puzzle[1].lower():
+        if word_puzzle_answer.value.strip().lower() == word_puzzle[1].lower():
             results.append("Word Puzzle: Correct!")
         else:
             results.append(f"Word Puzzle: Incorrect. The correct letter is '{word_puzzle[1]}'.")
         
         # Check unscramble
-        unscramble_answer = mo.get("Unscrambled Word")
-        if unscramble_answer.strip().lower() == unscramble[1].lower():
+        if unscramble_answer.value.strip().lower() == unscramble[1].lower():
             results.append("Unscramble: Correct!")
         else:
             results.append(f"Unscramble: Incorrect. The correct word is '{unscramble[1]}'.")
@@ -136,7 +131,7 @@ def __(math_problems, word_problem, word_puzzle, unscramble):
     
     check_button = mo.ui.button("Check Answers")
     
-    if check_button.clicked:
+    if check_button.value:
         mo.md(check_answers())
     return
 
